@@ -7,6 +7,8 @@ import initProgressTray from './progressTray';
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
+app.dock.hide();
+
 // global reference to mainWindow (necessary to prevent window from being garbage collected)
 let mainWindow;
 
@@ -14,8 +16,9 @@ function createMainWindow() {
   const win = new BrowserWindow({
     title: app.name,
     show: false,
-    width: 170,
-    height: 200,
+    frame: false,
+    width: 140,
+    height: 130,
     webPreferences: { nodeIntegration: true }
   });
 
@@ -41,8 +44,12 @@ function createMainWindow() {
     mainWindow = null;
   });
 
-  win.on('ready-to-show', () => {
-    mainWindow.show();
+  // win.on('ready-to-show', () => {
+  //   mainWindow.show();
+  // });
+
+  win.on('blur', () => {
+    mainWindow.hide();
   });
 
   win.webContents.on('devtools-opened', () => {

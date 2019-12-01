@@ -11,6 +11,11 @@ const init = win => {
   const setProgressTray = img => {
     if (!progressTray) {
       progressTray = new Tray(img);
+      progressTray.setHighlightMode('never');
+      progressTray.addListener('click', (event, bounds) => {
+        win.show();
+        positioner.move('trayCenter', bounds);
+      });
     } else {
       progressTray.setImage(img);
     }
