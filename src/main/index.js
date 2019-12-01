@@ -18,7 +18,7 @@ function createMainWindow() {
     show: false,
     frame: false,
     width: 140,
-    height: 130,
+    height: 150,
     webPreferences: { nodeIntegration: true }
   });
 

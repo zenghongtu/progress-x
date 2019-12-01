@@ -145,22 +145,35 @@ const addProgressMenu = () => {
 
 const addAppMenu = app => {
   const appMenu = document.createElement('div');
-  appMenu.innerHTML = `
-  <div class="app-menu">
-    <div class="app-menu-item" data-value="feedback">
-        Feedback
-    </div>  
-    <div class="app-menu-item" data-value="quit">
-        Quit
-    </div>  
-  </div>
-`;
+
+  const render = openAtLogin => {
+    appMenu.innerHTML = `
+    <div class="app-menu">
+      <div class="app-menu-item ${
+        openAtLogin ? 'active' : ''
+      }" data-value="openAtLogin">
+        Open At Login
+      </div>  
+      <div class="app-menu-item" data-value="feedback">
+          Feedback
+      </div>  
+      <div class="app-menu-item" data-value="quit">
+          Quit
+      </div>  
+    </div>
+  `;
+  };
 
   const handleAppMenuClick = e => {
     const { target } = e;
     if (target) {
       const actionValue = target.dataset.value;
-      if (actionValue === 'quit') {
+      if (actionValue === 'openAtLogin') {
+        const { openAtLogin } = remote.app.getLoginItemSettings();
+        const cur = !openAtLogin;
+        remote.app.setLoginItemSettings({ openAtLogin: cur });
+        render(cur);
+      } else if (actionValue === 'quit') {
         remote.app.quit();
       } else if (actionValue === 'feedback') {
         remote.shell.openExternal(pkg.homepage);
@@ -170,6 +183,8 @@ const addAppMenu = app => {
 
   appMenu.addEventListener('click', handleAppMenuClick);
   app.appendChild(appMenu);
+  const { openAtLogin } = remote.app.getLoginItemSettings();
+  render(openAtLogin);
 };
 
 const appEl = document.getElementById('app');

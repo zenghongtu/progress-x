@@ -10,6 +10,7 @@ body {
 }
 
 #app {
+  margin-top: 5px;
   font-size: 14px;
   /* font-weight: 500; */
   /* font-family: 'Times New Roman'; */
@@ -19,6 +20,7 @@ body {
   cursor: default;
 }
 
+/* progress */
 .progress-menu {
   padding-bottom: 5px;
 }
@@ -68,13 +70,19 @@ body {
   background-color: var(--bar-color);
 }
 
+/* app-menu */
 .app-menu {
   padding: 5px 0 0 0;
   border-top: 1px solid var(--border-color);
 }
 
 .app-menu-item {
+  position: relative;
   padding-left: 20px;
+}
+
+.app-menu-item.active:before {
+  transform: translate(50%, -50%);
 }
 
 .app-menu-item:hover {
