@@ -1,0 +1,82 @@
+body {
+  padding: 0;
+  margin: 0;
+}
+:root {
+  --hover-bg-color: #ebebeb;
+  --border-color: #e4e4e4;
+  --bar-bg-color: #c2c2c2;
+  --bar-color: #111;
+}
+
+#app {
+  font-size: 14px;
+  /* font-weight: 500; */
+  /* font-family: 'Times New Roman'; */
+  /* font-family: 'sans-serif'; */
+  font-family: 'Helvetica Neue';
+  user-select: none;
+  cursor: default;
+}
+
+.progress-menu {
+  padding-bottom: 5px;
+}
+
+.progress-wrap {
+  padding-left: 15px;
+}
+
+.progress-wrap:hover {
+  background: var(--hover-bg-color);
+}
+
+.progress {
+  display: inline-block;
+  position: relative;
+  padding: 0 5px 0 5px;
+}
+
+.active::before {
+  content: '✓';
+  font-size: 14px;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translate(-100%, -50%);
+}
+
+.bar-wrap {
+  display: inline-block;
+  position: relative;
+  width: 20px;
+  height: 10px;
+  margin-right: 2px;
+  border-radius: 2px;
+  background-color: var(--bar-bg-color);
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.bar {
+  display: inline-block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 0%;
+  background-color: var(--bar-color);
+}
+
+.app-menu {
+  padding: 5px 0 0 0;
+  border-top: 1px solid var(--border-color);
+}
+
+.app-menu-item {
+  padding-left: 20px;
+}
+
+.app-menu-item:hover {
+  background: var(--hover-bg-color);
+}

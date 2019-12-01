@@ -3,6 +3,7 @@
 import { app, BrowserWindow } from 'electron';
 import * as path from 'path';
 import { format as formatUrl } from 'url';
+import initProgressTray from './progressTray';
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
@@ -10,18 +11,24 @@ const isDevelopment = process.env.NODE_ENV !== 'production';
 let mainWindow;
 
 function createMainWindow() {
-  const window = new BrowserWindow({
+  const win = new BrowserWindow({
+    title: app.name,
+    show: false,
+    width: 170,
+    height: 200,
     webPreferences: { nodeIntegration: true }
   });
 
+  initProgressTray(win);
+
   if (isDevelopment) {
-    window.webContents.openDevTools();
+    win.webContents.openDevTools();
   }
 
   if (isDevelopment) {
-    window.loadURL(`http://localhost:${process.env.ELECTRON_WEBPACK_WDS_PORT}`);
+    win.loadURL(`http://localhost:${process.env.ELECTRON_WEBPACK_WDS_PORT}`);
   } else {
-    window.loadURL(
+    win.loadURL(
       formatUrl({
         pathname: path.join(__dirname, 'index.html'),
         protocol: 'file',
@@ -30,18 +37,22 @@ function createMainWindow() {
     );
   }
 
-  window.on('closed', () => {
+  win.on('closed', () => {
     mainWindow = null;
   });
 
-  window.webContents.on('devtools-opened', () => {
-    window.focus();
+  win.on('ready-to-show', () => {
+    mainWindow.show();
+  });
+
+  win.webContents.on('devtools-opened', () => {
+    win.focus();
     setImmediate(() => {
-      window.focus();
+      win.focus();
     });
   });
 
-  return window;
+  return win;
 }
 
 // quit application when all windows are closed
