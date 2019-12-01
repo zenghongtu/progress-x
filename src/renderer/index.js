@@ -1,7 +1,8 @@
 import './style.css';
 import html2canvas from 'html2canvas';
-import { ipcRenderer } from 'electron';
+import { ipcRenderer, remote } from 'electron';
 import moment from 'moment';
+import pkg from '../../package.json';
 
 const updateTrayByCanvasWithElement = ele => {
   return new Promise((resolve, reject) => {
@@ -156,9 +157,14 @@ const addAppMenu = app => {
 `;
 
   const handleAppMenuClick = e => {
-    if (e.target) {
-      const actionValue = e.target.dataset.value;
-      console.log(actionValue);
+    const { target } = e;
+    if (target) {
+      const actionValue = target.dataset.value;
+      if (actionValue === 'quit') {
+        remote.app.quit();
+      } else if (actionValue === 'feedback') {
+        remote.shell.openExternal(pkg.homepage);
+      }
     }
   };
 
