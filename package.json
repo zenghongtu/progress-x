@@ -14,11 +14,21 @@
   "dependencies": {
     "source-map-support": "^0.5.16"
   },
+  "build": {
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "zenghongtu",
+        "repo": "progress-x"
+      }
+    ]
+  },
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.7.4",
     "electron": "6.1.5",
     "electron-builder": "^21.2.0",
     "electron-positioner": "^4.1.0",
+    "electron-updater": "^4.2.0",
     "electron-webpack": "^2.7.4",
     "html2canvas": "^1.0.0-rc.5",
     "moment": "^2.24.0",
