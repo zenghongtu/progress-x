@@ -9,6 +9,8 @@ const isDevelopment = process.env.NODE_ENV !== 'production';
 
 app.dock.hide();
 
+app.disableHardwareAcceleration();
+
 // global reference to mainWindow (necessary to prevent window from being garbage collected)
 let mainWindow;
 
