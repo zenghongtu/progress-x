@@ -3,7 +3,7 @@ import html2canvas from 'html2canvas';
 import { ipcRenderer } from 'electron';
 import moment from 'moment';
 
-const updateTrayByElement = ele => {
+const updateTrayByCanvasWithElement = ele => {
   return new Promise((resolve, reject) => {
     html2canvas(ele)
       .then(canvas => {
@@ -119,18 +119,27 @@ const addProgressMenu = () => {
 
   app.appendChild(progressMenu);
 
-  const defaultValue = 'day';
-  render(defaultValue);
-
   const handleProgressMenuClick = async e => {
     const { target } = e;
     if (target && target.className === 'progress') {
-      await updateTrayByElement(target);
-      render(target.dataset.name);
+      const value = target.dataset.name;
+      localStorage.activeProgress = value;
+      await updateTrayByCanvasWithElement(target);
+      render(value);
     }
   };
 
   progressMenu.addEventListener('click', handleProgressMenuClick);
+
+  const initTray = async () => {
+    const initValue = localStorage.activeProgress || 'day';
+    render(initValue);
+
+    const activeProgressEl = document.querySelector('.progress.active');
+    await updateTrayByCanvasWithElement(activeProgressEl);
+  };
+
+  initTray();
 };
 
 const addAppMenu = app => {
@@ -157,6 +166,6 @@ const addAppMenu = app => {
   app.appendChild(appMenu);
 };
 
-const app = document.getElementById('app');
-addProgressMenu(app);
-addAppMenu(app);
+const appEl = document.getElementById('app');
+addProgressMenu(appEl);
+addAppMenu(appEl);
