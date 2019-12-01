@@ -1,12 +1,26 @@
-body {
-  padding: 0;
-  margin: 0;
-}
 :root {
+  --color: #000;
+  --bg: rgb(255, 255, 255, 0.6);
   --hover-bg-color: #ebebeb;
   --border-color: #e4e4e4;
   --bar-bg-color: #c2c2c2;
   --bar-color: #111;
+}
+
+[data-theme^='dark'] {
+  --color: #fafafa;
+  --bg: rgb(0, 0, 0, 0.8);
+  --hover-bg-color: #666565;
+  --border-color: #3f3e3e;
+  --bar-bg-color: #919191;
+  --bar-color: #fefefe;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  color: var(--color);
+  background: var(--bg);
 }
 
 #app {
@@ -16,6 +30,7 @@ body {
   /* font-family: 'Times New Roman'; */
   /* font-family: 'sans-serif'; */
   font-family: 'Helvetica Neue';
+  -webkit-user-drag: none;
   user-select: none;
   cursor: default;
 }

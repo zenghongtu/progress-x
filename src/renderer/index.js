@@ -6,7 +6,11 @@ import pkg from '../../package.json';
 
 const updateTrayByCanvasWithElement = ele => {
   return new Promise((resolve, reject) => {
-    html2canvas(ele)
+    const backgroundColor = remote.systemPreferences.isDarkMode()
+      ? '#000'
+      : null;
+
+    html2canvas(ele, { backgroundColor })
       .then(canvas => {
         const dataUrl = canvas.toDataURL();
         ipcRenderer.send('set-progress-tray', dataUrl);
@@ -187,6 +191,22 @@ const addAppMenu = app => {
   render(openAtLogin);
 };
 
-const appEl = document.getElementById('app');
-addProgressMenu(appEl);
-addAppMenu(appEl);
+const renderApp = () => {
+  const appEl = document.getElementById('app');
+  appEl.innerHTML = '';
+  addProgressMenu(appEl);
+  addAppMenu(appEl);
+};
+
+const setTheme = () => {
+  let theme = remote.systemPreferences.isDarkMode() ? 'dark' : '';
+  document.documentElement.setAttribute('data-theme', theme);
+  renderApp();
+};
+
+remote.systemPreferences.subscribeNotification(
+  'AppleInterfaceThemeChangedNotification',
+  setTheme
+);
+
+setTheme();

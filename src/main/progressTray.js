@@ -6,7 +6,6 @@ let positioner;
 
 const init = win => {
   positioner = new Positioner(win);
-  console.log('positioner: ', positioner);
 
   const setProgressTray = img => {
     if (!progressTray) {
@@ -22,7 +21,7 @@ const init = win => {
   };
 
   ipcMain.on('set-progress-tray', (event, dataURL) => {
-    const img = nativeImage.createFromDataURL(dataURL);
+    const img = nativeImage.createFromDataURL(dataURL).resize({ height: 16 });
     setProgressTray(img);
   });
 };
