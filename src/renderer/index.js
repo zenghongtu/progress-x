@@ -138,7 +138,8 @@ const addProgressMenu = () => {
   // TODO add remove
   progressMenu.addEventListener('click', handleProgressMenuClick);
 
-  const updateTray = async () => {
+  const updateTray = async (unit = activeProgressUnit) => {
+    render(unit);
     const activeProgressEl = document.querySelector('.progress.active');
     await updateTrayByCanvasWithElement(activeProgressEl);
   };
@@ -146,16 +147,13 @@ const addProgressMenu = () => {
   const initTray = async () => {
     appEl.appendChild(progressMenu);
 
-    render(activeProgressUnit);
     await updateTray();
   };
 
   initTray();
 
   const refreshProgress = async (unit = activeProgressUnit) => {
-    // TODO pref
-    render(unit);
-    await updateTray();
+    await updateTray(unit);
   };
 
   return refreshProgress;
@@ -206,10 +204,11 @@ const addAppMenu = app => {
 };
 
 let timer;
+let refreshProgress;
 
 const renderApp = () => {
   appEl.innerHTML = '';
-  const refreshProgress = addProgressMenu(appEl);
+  refreshProgress = addProgressMenu(appEl);
   timer && clearInterval(timer);
   timer = setInterval(() => {
     refreshProgress();
@@ -221,8 +220,7 @@ const setTheme = () => {
   isDarkMode = remote.systemPreferences.isDarkMode();
   const theme = isDarkMode ? 'dark' : '';
   document.documentElement.setAttribute('data-theme', theme);
-  // TODO pref
-  renderApp();
+  refreshProgress && refreshProgress();
 };
 
 remote.systemPreferences.subscribeNotification(
@@ -231,3 +229,4 @@ remote.systemPreferences.subscribeNotification(
 );
 
 setTheme();
+renderApp();
