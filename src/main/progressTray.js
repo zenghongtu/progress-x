@@ -20,10 +20,10 @@ const init = win => {
     }
   };
 
-  ipcMain.on('set-progress-tray', (event, dataURL) => {
-    const img = nativeImage.createFromDataURL(dataURL).resize({ height: 16 });
+  global.setProgressTrayWithDataURL = dataURL => {
+    const img = nativeImage.createFromDataURL(dataURL).resize({ height: 15 });
     setProgressTray(img);
-  });
+  };
 };
 
 export default init;

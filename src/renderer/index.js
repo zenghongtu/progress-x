@@ -16,8 +16,7 @@ const updateTrayByCanvasWithElement = ele => {
     html2canvas(ele, { backgroundColor })
       .then(canvas => {
         const dataUrl = canvas.toDataURL();
-        // TODO pref
-        ipcRenderer.send('set-progress-tray', dataUrl);
+        remote.getGlobal('setProgressTrayWithDataURL')(dataUrl);
       })
       .catch(e => {
         // TODO
