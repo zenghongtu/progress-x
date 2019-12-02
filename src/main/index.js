@@ -35,6 +35,8 @@ function createMainWindow() {
     }
   });
 
+  win.setVisibleOnAllWorkspaces(true);
+
   initProgressTray(win);
 
   if (isDevelopment) {
