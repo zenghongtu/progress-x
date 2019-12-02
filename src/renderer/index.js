@@ -135,19 +135,30 @@ const addProgressMenu = () => {
     }
   };
 
+  // TODO add remove
   progressMenu.addEventListener('click', handleProgressMenuClick);
+
+  const updateTray = async () => {
+    const activeProgressEl = document.querySelector('.progress.active');
+    await updateTrayByCanvasWithElement(activeProgressEl);
+  };
 
   const initTray = async () => {
     appEl.appendChild(progressMenu);
 
     render(activeProgressUnit);
-
-    const activeProgressEl = document.querySelector('.progress.active');
-    await updateTrayByCanvasWithElement(activeProgressEl);
+    await updateTray();
   };
 
   initTray();
 
+  const refreshProgress = async (unit = activeProgressUnit) => {
+    // TODO pref
+    render(unit);
+    await updateTray();
+  };
+
+  return refreshProgress;
 };
 
 const addAppMenu = app => {
@@ -194,9 +205,15 @@ const addAppMenu = app => {
   render(openAtLogin);
 };
 
+let timer;
+
 const renderApp = () => {
   appEl.innerHTML = '';
-  addProgressMenu(appEl);
+  const refreshProgress = addProgressMenu(appEl);
+  timer && clearInterval(timer);
+  timer = setInterval(() => {
+    refreshProgress();
+  }, 1000 * 60);
   addAppMenu(appEl);
 };
 
@@ -204,6 +221,7 @@ const setTheme = () => {
   isDarkMode = remote.systemPreferences.isDarkMode();
   const theme = isDarkMode ? 'dark' : '';
   document.documentElement.setAttribute('data-theme', theme);
+  // TODO pref
   renderApp();
 };
 

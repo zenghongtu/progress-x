@@ -10,7 +10,10 @@ const isDevelopment = process.env.NODE_ENV !== 'production';
 
 app.dock.hide();
 
+// 这个API目前有问题 issue:
 app.disableHardwareAcceleration();
+app.commandLine.appendSwitch('disable-renderer-backgrounding');
+app.commandLine.appendSwitch('disable-background-timer-throttling');
 
 autoUpdater.checkForUpdatesAndNotify();
 
@@ -24,7 +27,12 @@ function createMainWindow() {
     frame: false,
     width: 140,
     height: 150,
-    webPreferences: { nodeIntegration: true }
+    minimizable: true,
+    webPreferences: {
+      pageVisibility: true,
+      backgroundThrottling: false,
+      nodeIntegration: true
+    }
   });
 
   initProgressTray(win);
