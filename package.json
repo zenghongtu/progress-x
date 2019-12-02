@@ -15,6 +15,16 @@
     "source-map-support": "^0.5.16"
   },
   "build": {
+    "asar": true,
+    "mac": {
+      "target": [
+        "dmg",
+        "zip"
+      ],
+      "category": "public.app-category.productivity",
+      "icon": "resources/icons/mac/icon.icns",
+      "darkModeSupport": true
+    },
     "publish": [
       {
         "provider": "github",
