@@ -4,15 +4,19 @@ import { ipcRenderer, remote } from 'electron';
 import moment from 'moment';
 import pkg from '../../package.json';
 
+let activeProgressUnit = localStorage.activeProgressUnit || 'day';
+let isDarkMode = remote.systemPreferences.isDarkMode();
+
+const appEl = document.getElementById('app');
+
 const updateTrayByCanvasWithElement = ele => {
   return new Promise((resolve, reject) => {
-    const backgroundColor = remote.systemPreferences.isDarkMode()
-      ? '#000'
-      : null;
+    const backgroundColor = isDarkMode ? '#000' : null;
 
     html2canvas(ele, { backgroundColor })
       .then(canvas => {
         const dataUrl = canvas.toDataURL();
+        // TODO pref
         ipcRenderer.send('set-progress-tray', dataUrl);
       })
       .catch(e => {
@@ -97,7 +101,6 @@ const addProgressMenu = () => {
     // }
   ];
 
-  const app = document.getElementById('app');
   const progressMenu = document.createElement('div');
   progressMenu.className = 'progress-menu';
 
@@ -122,29 +125,29 @@ const addProgressMenu = () => {
       .join('');
   };
 
-  app.appendChild(progressMenu);
-
   const handleProgressMenuClick = async e => {
     const { target } = e;
     if (target && target.className === 'progress') {
-      const value = target.dataset.name;
-      localStorage.activeProgress = value;
+      activeProgressUnit = localStorage.activeProgressUnit =
+        target.dataset.name;
       await updateTrayByCanvasWithElement(target);
-      render(value);
+      render(activeProgressUnit);
     }
   };
 
   progressMenu.addEventListener('click', handleProgressMenuClick);
 
   const initTray = async () => {
-    const initValue = localStorage.activeProgress || 'day';
-    render(initValue);
+    appEl.appendChild(progressMenu);
+
+    render(activeProgressUnit);
 
     const activeProgressEl = document.querySelector('.progress.active');
     await updateTrayByCanvasWithElement(activeProgressEl);
   };
 
   initTray();
+
 };
 
 const addAppMenu = app => {
@@ -192,14 +195,14 @@ const addAppMenu = app => {
 };
 
 const renderApp = () => {
-  const appEl = document.getElementById('app');
   appEl.innerHTML = '';
   addProgressMenu(appEl);
   addAppMenu(appEl);
 };
 
 const setTheme = () => {
-  let theme = remote.systemPreferences.isDarkMode() ? 'dark' : '';
+  isDarkMode = remote.systemPreferences.isDarkMode();
+  const theme = isDarkMode ? 'dark' : '';
   document.documentElement.setAttribute('data-theme', theme);
   renderApp();
 };
