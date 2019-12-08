@@ -16,7 +16,9 @@
     "release": "yarn compile && electron-builder -p always",
     "push-tags": "git push origin master && git push origin --tags"
   },
-  "dependencies": {},
+  "dependencies": {
+    "source-map-support": "^0.5.16"
+  },
   "build": {
     "asar": true,
     "mac": {
@@ -45,7 +47,6 @@
     "electron-webpack": "^2.7.4",
     "html2canvas": "^1.0.0-rc.5",
     "moment": "^2.24.0",
-    "source-map-support": "^0.5.16",
     "webpack": "~4.41.2"
   }
 }
