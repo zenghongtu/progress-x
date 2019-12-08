@@ -1,6 +1,6 @@
 {
   "name": "progress-x",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "license": "MIT",
   "repository": "https://github.com/zenghongtu/progress-x.git",
   "homepage": "https://github.com/zenghongtu/progress-x",
@@ -9,11 +9,13 @@
     "dev": "electron-webpack dev",
     "compile": "electron-webpack",
     "dist": "yarn compile && electron-builder",
-    "dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null"
+    "dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null",
+    "patch": "yarn version --patch && yarn run push-tags",
+    "minor": "yarn version --minor && yarn run push-tags",
+    "major": "yarn version --major && yarn run push-tags",
+    "push-tags": "git push origin master && git push origin --tags"
   },
-  "dependencies": {
-    "source-map-support": "^0.5.16"
-  },
+  "dependencies": {},
   "build": {
     "asar": true,
     "mac": {
@@ -42,6 +44,7 @@
     "electron-webpack": "^2.7.4",
     "html2canvas": "^1.0.0-rc.5",
     "moment": "^2.24.0",
+    "source-map-support": "^0.5.16",
     "webpack": "~4.41.2"
   }
 }
