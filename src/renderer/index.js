@@ -36,33 +36,33 @@ const addProgressMenu = () => {
     return Math.ceil((pastMins / duration) * 100);
   };
 
-  const getHourPercentage = _ => {
+  const getHourPercentage = () => {
     return getProgressPercentage('hour', 60 * 60);
   };
 
-  const getDayPercentage = _ => {
+  const getDayPercentage = () => {
     return getProgressPercentage('day', 24 * 60 * 60);
   };
 
-  const getWeekPercentage = _ => {
+  const getWeekPercentage = () => {
     return getProgressPercentage('week', 7 * 24 * 60 * 60);
   };
 
-  const getMonthPercentage = datetime => {
+  const getMonthPercentage = () => {
     return getProgressPercentage(
       'month',
       moment().daysInMonth() * 24 * 60 * 60
     );
   };
 
-  const getYearPercentage = datetime => {
+  const getYearPercentage = () => {
     return getProgressPercentage(
       'year',
       (365 + (moment().isLeapYear() ? 1 : 0)) * 24 * 60 * 60
     );
   };
 
-  const getLifePercentage = datetime => {
+  const getLifePercentage = () => {
     // TODO
     return 0;
   };
@@ -207,7 +207,7 @@ let refreshProgress;
 
 const renderApp = () => {
   appEl.innerHTML = '';
-  refreshProgress = addProgressMenu(appEl);
+  refreshProgress = addProgressMenu();
   timer && clearInterval(timer);
   timer = setInterval(() => {
     refreshProgress();
@@ -229,3 +229,4 @@ remote.systemPreferences.subscribeNotification(
 
 setTheme();
 renderApp();
+
