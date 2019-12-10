@@ -230,3 +230,7 @@ remote.systemPreferences.subscribeNotification(
 setTheme();
 renderApp();
 
+// TODO add remove
+remote.powerMonitor.addListener('resume', () => {
+  refreshProgress();
+});
