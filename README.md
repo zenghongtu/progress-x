@@ -1,6 +1,6 @@
-# progress-x
-
 ![](assets/logo.png)
+
+# progress-x
 
 > A progress bar on the menu bar. Inspired by [Progress Bar OSX](https://www.progressbarosx.com/)
 
@@ -11,6 +11,10 @@
 # Features
 
 - [x] Support dark theme
+
+# Install
+
+[Download](https://github.com/zenghongtu/progress-x/releases)
 
 # License
 
