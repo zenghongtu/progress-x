@@ -6,6 +6,12 @@ import { format as formatUrl } from 'url';
 import { autoUpdater } from 'electron-updater';
 import initProgressTray from './progressTray';
 
+import * as Sentry from '@sentry/electron';
+
+Sentry.init({
+  dsn: 'https://c733a2e1351d47a59ad1681ce1d403df@sentry.io/1852705'
+});
+
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
 app.dock.hide();

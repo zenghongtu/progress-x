@@ -17,6 +17,7 @@
     "push-tags": "git push origin master && git push origin --tags"
   },
   "dependencies": {
+    "@sentry/electron": "^1.0.0",
     "source-map-support": "^0.5.16"
   },
   "build": {
