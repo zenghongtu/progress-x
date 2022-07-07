@@ -47,7 +47,7 @@
     "electron-updater": "^4.2.0",
     "electron-webpack": "^2.7.4",
     "html2canvas": "^1.0.0-rc.5",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "webpack": "~4.41.2"
   }
 }
